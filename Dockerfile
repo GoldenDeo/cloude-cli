@@ -1,5 +1,6 @@
 FROM node:20-slim
 
+# Встановлення необхідних пакетів
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     git \
@@ -19,7 +20,13 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 # Встановлення Claude CLI
 RUN npm install -g @anthropic-ai/claude-code
 
+RUN useradd -ms /bin/bash deo
+
 WORKDIR /workspace
+RUN chown -R deo:deo /workspace
+
+# Перехід під користувача
+USER deo
 
 ENTRYPOINT ["claude"]
 CMD []
