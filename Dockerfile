@@ -1,6 +1,5 @@
 FROM node:20-slim
 
-# Встановлення необхідних пакетів
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     git \
@@ -20,14 +19,9 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 # Встановлення Claude CLI
 RUN npm install -g @anthropic-ai/claude-code
 
-# Створення користувача з правильними правами
-RUN useradd -u 1000 -g 1000 -ms /bin/bash deo
-RUN usermod -aG docker deo
-
 WORKDIR /workspace
-RUN chown -R 1000:1000 /workspace
 
-USER deo
+USER node
 
 ENTRYPOINT ["claude"]
 CMD []
