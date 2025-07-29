@@ -20,12 +20,13 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 # Встановлення Claude CLI
 RUN npm install -g @anthropic-ai/claude-code
 
-RUN useradd -ms /bin/bash deo
+# Створення користувача з правильними правами
+RUN useradd -u 1000 -g 1000 -ms /bin/bash deo
+RUN usermod -aG docker deo
 
 WORKDIR /workspace
-RUN chown -R deo:deo /workspace
+RUN chown -R 1000:1000 /workspace
 
-# Перехід під користувача
 USER deo
 
 ENTRYPOINT ["claude"]
